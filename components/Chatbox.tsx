@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { toast } from "react-toastify";
 
 const Chatbox = () => {
   const [theInput, setTheInput] = useState(""); // input that the user gives to the bot
@@ -25,22 +26,26 @@ const Chatbox = () => {
     setMessages(temp)
     setTheInput("");
     console.log("Calling OpenAI...");
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`, {
+        method: "POST",
+        body: JSON.stringify({ messages }),
+      });
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`, {
-      method: "POST",
-      body: JSON.stringify({ messages }),
-    });
-
-    const data = await response.json();
-    const { output } = data;
-    console.log("OpenAI replied...", output.content);
-
-    setMessages((prevMessages) => [...prevMessages, output]);
-    setIsLoading(false);
+      const data = await response.json();
+      const { output } = data;
+      console.log("OpenAI replied...", output.content);
+      setMessages((prevMessages) => [...prevMessages, output]);
+      setIsLoading(false);
+    } catch {
+      toast.error("Failed to connect to the server.");
+      setMessages((prevMessages) => [...prevMessages]);
+      setIsLoading(false);
+    }
 
   };
   return (
-    <div className="flex absolute right-0 flex-col bottom-0 h-screen w-[28rem] z-50 items-center bg-[rgba(0,0,0,0.5)]">
+    <div className="flex md:absolute md:right-0 md:w-[28rem] max-md:w-full flex-col h-screen z-50 items-center bg-[rgba(0,0,0,0.5)]">
       <div className="h-full flex flex-col gap-2 overflow-y-auto py-8 px-3 w-full">
         {messages.map((e) => {
           return (

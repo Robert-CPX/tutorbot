@@ -5,7 +5,7 @@ import Tutor from "@/components/Tutor";
 
 const Page = () => {
   return (
-    <main className="flex min-h-screen">
+    <main className="flex h-screen w-screen items-center justify-center">
       <Toast />
       <Chatbox />
       <Tutor />

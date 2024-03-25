@@ -44,7 +44,7 @@ const createAnimation = (recordedData: any, morphTargetDictionary: any, bodyPart
       time.push(finishedFrames / fps)
       finishedFrames++
 
-    })
+    });
 
     let tracks: KeyframeTrack[] | undefined = []
 
@@ -54,7 +54,7 @@ const createAnimation = (recordedData: any, morphTargetDictionary: any, bodyPart
       if (!(modifiedKey(key) in morphTargetDictionary)) { return };
 
       let i = morphTargetDictionary[modifiedKey(key)]
-      let track = new NumberKeyframeTrack(`${bodyPart}.morphTargetInfluences[${i}]`, time, animation[i].map(Number)) // Convert strings to numbers
+      let track = new NumberKeyframeTrack(`${bodyPart}.morphTar·getInfluences[${i}]`, time, animation[i].map(Number)) // Convert strings to numbers
       tracks?.push(track)
     });
 

@@ -11,7 +11,7 @@ import Avatar from "./Avatar";
 
 const Tutor = () => {
   return (
-    <div className="w-screen h-screen">
+    <div className="flex w-screen h-screen z-0 max-md:hidden">
       <Canvas dpr={2}>
         <OrthographicCamera makeDefault zoom={1200} position={[0.01, 1.6, 1]} />
         <Suspense fallback={null}>
