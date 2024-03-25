@@ -40,7 +40,7 @@ const Chatbox = () => {
 
   };
   return (
-    <div className="flex absolute right-0 flex-col bottom-0 h-screen w-[28rem] z-50 items-center">
+    <div className="flex absolute right-0 flex-col bottom-0 h-screen w-[28rem] z-50 items-center bg-[rgba(0,0,0,0.5)]">
       <div className="h-full flex flex-col gap-2 overflow-y-auto py-8 px-3 w-full">
         {messages.map((e) => {
           return (
