@@ -1,5 +1,6 @@
 import {
   AnimationClip,
+  KeyframeTrack,
   NumberKeyframeTrack,
 } from 'three';
 
@@ -23,13 +24,13 @@ const modifiedKey = (key: string) => {
 const createAnimation = (recordedData: any, morphTargetDictionary: any, bodyPart: any) => {
 
   if (recordedData.length != 0) {
-    let animation = []
+    let animation: string[][] = []
     for (let i = 0; i < Object.keys(morphTargetDictionary).length; i++) {
       animation.push([])
     }
-    let time = []
+    let time: number[] = []
     let finishedFrames = 0
-    recordedData.forEach((d, i) => {
+    recordedData.forEach((d: { blendshapes: { [s: string]: string; } | string[]; }, i: any) => {
       Object.entries(d.blendshapes).forEach(([key, value]) => {
 
         if (!(modifiedKey(key) in morphTargetDictionary)) { return };
@@ -45,7 +46,7 @@ const createAnimation = (recordedData: any, morphTargetDictionary: any, bodyPart
 
     })
 
-    let tracks = []
+    let tracks: KeyframeTrack[] | undefined = []
 
     let flag = false;
     Object.entries(recordedData[0].blendshapes).forEach(([key, value]) => {
@@ -53,8 +54,8 @@ const createAnimation = (recordedData: any, morphTargetDictionary: any, bodyPart
       if (!(modifiedKey(key) in morphTargetDictionary)) { return };
 
       let i = morphTargetDictionary[modifiedKey(key)]
-      let track = new NumberKeyframeTrack(`${bodyPart}.morphTargetInfluences[${i}]`, time, animation[i])
-      tracks.push(track)
+      let track = new NumberKeyframeTrack(`${bodyPart}.morphTargetInfluences[${i}]`, time, animation[i].map(Number)) // Convert strings to numbers
+      tracks?.push(track)
     });
 
     const clip = new AnimationClip('animation', -1, tracks);
